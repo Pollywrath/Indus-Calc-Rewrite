@@ -1,0 +1,18 @@
+[
+  {
+    "id": "r_assembler_mk1_01",
+    "name": "Makes Iron Gear",
+    "machine_id": "m_assembler_mk1",
+    "cycle_time": 2.5,
+    "cycle_mode": "none",
+    "power_consumption": 5.0,
+    "power_type": "MV",
+    "pollution": 0.1,
+    "inputs": [
+      { "product_id": "p_iron_plate", "quantity": 2, "quantity_mode": "none", "node": 0 }
+    ],
+    "outputs": [
+      { "product_id": "p_iron_gear", "quantity": 1, "quantity_mode": "none", "node": 0 }
+    ]
+  }
+]

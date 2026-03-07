@@ -5,6 +5,8 @@ import CustomNode from './components/nodes/CustomNode'
 import CustomEdge from './components/edges/CustomEdge'
 import { DisplayModeProvider } from './contexts/DisplayModeContext'
 import { useDashAnimation } from './hooks/useDashAnimation'
+import RecipeSelector from './components/ui/RecipeSelector'
+import { machinesMap } from './data/store'
 
 const nodeTypes          = { customNode: CustomNode }
 const edgeTypes          = { customEdge: CustomEdge }
@@ -15,15 +17,25 @@ const snapGrid           = [20, 20]
 export default function App() {
   useDashAnimation()
 
-  const [nodes, , onNodesChange] = useNodesState([])
+  const [nodes, setNodes, onNodesChange] = useNodesState([])
   const [edges, setEdges, onEdgesChange] = useEdgesState([])
 
-  const onConnect   = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges])
-  const onDragStart = useCallback(() => document.body.classList.add('is-dragging'), [])
-  const onDragStop  = useCallback(() => document.body.classList.remove('is-dragging'), [])
+  const onConnect        = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges])
+  const onDragStart      = useCallback(() => document.body.classList.add('is-dragging'), [])
+  const onDragStop       = useCallback(() => document.body.classList.remove('is-dragging'), [])
+  const onSelectRecipe   = useCallback((recipe) => {
+    const machine = machinesMap[recipe.machine_id] ?? null
+    setNodes(ns => [...ns, {
+      id:       crypto.randomUUID(),
+      type:     'customNode',
+      position: { x: 60 + (ns.length % 5) * 440, y: 60 + Math.floor(ns.length / 5) * 320 },
+      data:     { recipe, machine },
+    }])
+  }, [setNodes])
 
   return (
     <DisplayModeProvider>
+      <RecipeSelector onSelectRecipe={onSelectRecipe} />
       <div style={canvasStyle}>
         <ReactFlow
           nodes={nodes}

@@ -1,0 +1,9 @@
+[
+  {
+    "id": "p_iron_plate",
+    "name": "Iron Plate",
+    "sell_price": 10.5,
+    "rp_multiplier": 1.0,
+    "type": "Item"
+  }
+]

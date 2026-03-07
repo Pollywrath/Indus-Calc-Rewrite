@@ -1,0 +1,14 @@
+[
+  {
+    "id": "s_basic_assembly",
+    "name": "Basic Assembly",
+    "rp_cost": 100,
+    "prerequisites": []
+  },
+  {
+    "id": "s_advanced_assembly",
+    "name": "Advanced Assembly",
+    "rp_cost": 500,
+    "prerequisites": ["s_basic_assembly", "Requires completing the tutorial"]
+  }
+]

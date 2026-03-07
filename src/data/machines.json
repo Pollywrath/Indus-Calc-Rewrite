@@ -1,0 +1,24 @@
+[
+  {
+    "id": "m_assembler_mk1",
+    "name": "Assembler Mk1",
+    "cost": 500,
+    "category": "Factory",
+    "subcategory": "Assembler",
+    "tier": 1,
+    "size": { "x": 3, "y": 3 },
+    "input_nodes": [
+      { "x": 0, "y": 1, "type": "Item" },
+      { "x": 0, "y": 2, "type": "Item" }
+    ],
+    "output_nodes": [
+      { "x": 3, "y": 1, "type": "Item" }
+    ],
+    "power_nodes": [
+      { "x": 1, "y": 0, "power_type": "MV", "capacity": 100, "transfer_rate": 10, "direction": "input" }
+    ],
+    "variant": null,
+    "limited": false,
+    "research": null
+  }
+]

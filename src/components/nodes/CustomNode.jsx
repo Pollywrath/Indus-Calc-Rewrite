@@ -2,7 +2,7 @@ import { memo, useMemo } from 'react'
 import IORect from './IORect'
 import NodeHandle from './NodeHandle'
 import { NODE_WIDTH, TOP_SECTION_HEIGHT, SIDE_PADDING, COL_WIDTH, TIER_COLORS, getNodeHeight } from './nodeConstants'
-import { formatMetric, formatMachineCount, formatTime } from '../../utils/formatters'
+import { formatMetric, formatTime } from '../../utils/formatters'
 import { useDisplayMode, MODE_SECONDS, CYCLE_LABEL } from '../../contexts/DisplayModeContext'
 
 const infoAreaStyle  = { height: TOP_SECTION_HEIGHT }
@@ -22,17 +22,16 @@ const CustomNode = memo(({ data }) => {
       maxCount:            Math.max(inputCount, outputCount, 1),
       nodeStyle:           { width: NODE_WIDTH, height: getNodeHeight(inputCount, outputCount) },
       tierStyle:           { color: TIER_COLORS[machine.tier] || 'var(--text-primary)' },
-      cycleDisplay:        CYCLE_LABEL[mode] ?? formatTime(recipe.cycleTime),
-      powerDisplay:        formatMetric(recipe.power),
-      pollutionDisplay:    formatMetric(recipe.pollution),
-      machineCountDisplay: formatMachineCount(machine.count),
-      multiplier:          secs != null ? secs / recipe.cycleTime : null,
+      cycleDisplay:     CYCLE_LABEL[mode] ?? formatTime(recipe.cycle_time),
+      powerDisplay:     formatMetric(recipe.power_consumption),
+      pollutionDisplay: formatMetric(recipe.pollution),
+      multiplier:       secs != null ? secs / recipe.cycle_time : null,
     }
   }, [inputCount, outputCount, recipe, machine, mode])
 
   if (!derived) return null
 
-  const { maxCount, nodeStyle, tierStyle, cycleDisplay, powerDisplay, pollutionDisplay, machineCountDisplay, multiplier } = derived
+  const { maxCount, nodeStyle, tierStyle, cycleDisplay, powerDisplay, pollutionDisplay, multiplier } = derived
 
   return (
     <div className="custom-node" style={nodeStyle}>
@@ -46,7 +45,6 @@ const CustomNode = memo(({ data }) => {
           </div>
           <div className="node-machine-info">
             <div className="node-machine-name" style={tierStyle}>{machine.name}</div>
-            <div className="node-machine-count">{machineCountDisplay}</div>
           </div>
         </div>
       </div>
