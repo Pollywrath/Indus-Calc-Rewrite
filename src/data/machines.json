@@ -1,5 +1,44 @@
 [
   {
+    "id": "m_stone_furnace",
+    "name": "Stone Furnace",
+    "cost": 50,
+    "category": "Smelting",
+    "subcategory": "Furnace",
+    "tier": 1,
+    "size": { "x": 2, "y": 2 },
+    "input_nodes":  [{ "x": 0, "y": 1, "type": "Item" }],
+    "output_nodes": [{ "x": 2, "y": 1, "type": "Item" }],
+    "power_nodes":  [],
+    "variant": null, "limited": false, "research": null
+  },
+  {
+    "id": "m_steel_furnace",
+    "name": "Steel Furnace",
+    "cost": 250,
+    "category": "Smelting",
+    "subcategory": "Furnace",
+    "tier": 2,
+    "size": { "x": 2, "y": 2 },
+    "input_nodes":  [{ "x": 0, "y": 0, "type": "Item" }, { "x": 0, "y": 1, "type": "Item" }],
+    "output_nodes": [{ "x": 2, "y": 1, "type": "Item" }],
+    "power_nodes":  [],
+    "variant": null, "limited": false, "research": "s_basic_assembly"
+  },
+  {
+    "id": "m_electric_furnace",
+    "name": "Electric Furnace",
+    "cost": 1000,
+    "category": "Smelting",
+    "subcategory": "Furnace",
+    "tier": 3,
+    "size": { "x": 3, "y": 3 },
+    "input_nodes":  [{ "x": 0, "y": 1, "type": "Item" }],
+    "output_nodes": [{ "x": 3, "y": 1, "type": "Item" }],
+    "power_nodes":  [{ "x": 1, "y": 0, "power_type": "MV", "capacity": 180, "transfer_rate": 18, "direction": "input" }],
+    "variant": null, "limited": false, "research": "s_advanced_assembly"
+  },
+  {
     "id": "m_assembler_mk1",
     "name": "Assembler Mk1",
     "cost": 500,
@@ -7,18 +46,61 @@
     "subcategory": "Assembler",
     "tier": 1,
     "size": { "x": 3, "y": 3 },
-    "input_nodes": [
-      { "x": 0, "y": 1, "type": "Item" },
-      { "x": 0, "y": 2, "type": "Item" }
-    ],
-    "output_nodes": [
-      { "x": 3, "y": 1, "type": "Item" }
-    ],
-    "power_nodes": [
-      { "x": 1, "y": 0, "power_type": "MV", "capacity": 100, "transfer_rate": 10, "direction": "input" }
-    ],
-    "variant": null,
-    "limited": false,
-    "research": null
+    "input_nodes":  [{ "x": 0, "y": 1, "type": "Item" }, { "x": 0, "y": 2, "type": "Item" }],
+    "output_nodes": [{ "x": 3, "y": 1, "type": "Item" }],
+    "power_nodes":  [{ "x": 1, "y": 0, "power_type": "MV", "capacity": 100, "transfer_rate": 10, "direction": "input" }],
+    "variant": null, "limited": false, "research": null
+  },
+  {
+    "id": "m_assembler_mk2",
+    "name": "Assembler Mk2",
+    "cost": 1500,
+    "category": "Factory",
+    "subcategory": "Assembler",
+    "tier": 2,
+    "size": { "x": 3, "y": 3 },
+    "input_nodes":  [{ "x": 0, "y": 0, "type": "Item" }, { "x": 0, "y": 1, "type": "Item" }, { "x": 0, "y": 2, "type": "Item" }],
+    "output_nodes": [{ "x": 3, "y": 1, "type": "Item" }],
+    "power_nodes":  [{ "x": 1, "y": 0, "power_type": "MV", "capacity": 150, "transfer_rate": 15, "direction": "input" }],
+    "variant": null, "limited": false, "research": "s_basic_assembly"
+  },
+  {
+    "id": "m_assembler_mk3",
+    "name": "Assembler Mk3",
+    "cost": 5000,
+    "category": "Factory",
+    "subcategory": "Assembler",
+    "tier": 3,
+    "size": { "x": 4, "y": 4 },
+    "input_nodes":  [{ "x": 0, "y": 0, "type": "Item" }, { "x": 0, "y": 1, "type": "Item" }, { "x": 0, "y": 2, "type": "Item" }, { "x": 0, "y": 3, "type": "Item" }],
+    "output_nodes": [{ "x": 4, "y": 1, "type": "Item" }, { "x": 4, "y": 2, "type": "Item" }],
+    "power_nodes":  [{ "x": 2, "y": 0, "power_type": "HV", "capacity": 375, "transfer_rate": 38, "direction": "input" }],
+    "variant": null, "limited": false, "research": "s_advanced_assembly"
+  },
+  {
+    "id": "m_chemical_plant",
+    "name": "Chemical Plant",
+    "cost": 2500,
+    "category": "Chemical",
+    "subcategory": "Reactor",
+    "tier": 2,
+    "size": { "x": 3, "y": 3 },
+    "input_nodes":  [{ "x": 0, "y": 0, "type": "Fluid" }, { "x": 0, "y": 2, "type": "Fluid" }],
+    "output_nodes": [{ "x": 3, "y": 1, "type": "Fluid" }],
+    "power_nodes":  [{ "x": 1, "y": 0, "power_type": "MV", "capacity": 210, "transfer_rate": 21, "direction": "input" }],
+    "variant": null, "limited": false, "research": "s_basic_assembly"
+  },
+  {
+    "id": "m_oil_refinery",
+    "name": "Oil Refinery",
+    "cost": 8000,
+    "category": "Refining",
+    "subcategory": "Refinery",
+    "tier": 3,
+    "size": { "x": 5, "y": 5 },
+    "input_nodes":  [{ "x": 0, "y": 1, "type": "Fluid" }, { "x": 0, "y": 3, "type": "Fluid" }],
+    "output_nodes": [{ "x": 5, "y": 1, "type": "Fluid" }, { "x": 5, "y": 2, "type": "Fluid" }, { "x": 5, "y": 3, "type": "Fluid" }],
+    "power_nodes":  [{ "x": 2, "y": 0, "power_type": "HV", "capacity": 420, "transfer_rate": 42, "direction": "input" }],
+    "variant": null, "limited": false, "research": "s_advanced_assembly"
   }
 ]

@@ -1,9 +1,16 @@
-import { memo, useState, useMemo, useCallback } from 'react'
+import { memo, useState, useMemo, useCallback, useEffect } from 'react'
 import { recipes, products, machines, productsMap, machinesMap } from '../../data/store'
 import { useDisplayMode, MODE_SECONDS, CYCLE_LABEL } from '../../contexts/DisplayModeContext'
 import { formatQuantity, formatTime } from '../../utils/formatters'
 
 const TYPE_FILTERS = ['All', 'Item', 'Fluid']
+const ROLE_FILTERS = ['Producers', 'Consumers', 'Disposal', 'Heat Source', 'Depot']
+
+const matchesRole = (recipe, productId, role) => {
+  if (role === 'Producers') return recipe.outputs.some(o => o.product_id === productId)
+  if (role === 'Consumers') return recipe.inputs.some(i  => i.product_id === productId)
+  return false
+}
 const TABS         = ['Product', 'Machine']
 
 const SortHeader = memo(({ label, col, sortCol, sortDir, onSort }) => {
@@ -31,8 +38,10 @@ const MachineRow = memo(({ machine, onSelect }) => (
   </tr>
 ))
 
-const RecipeEntry = memo(({ recipe, multiplier, mode, onSelectRecipe, onClose }) => {
+const RecipeEntry = memo(({ recipe, mode, onSelectRecipe, onClose }) => {
   const machine      = machinesMap[recipe.machine_id]
+  const secs         = MODE_SECONDS[mode]
+  const multiplier   = secs != null ? secs / recipe.cycle_time : null
   const cycleDisplay = CYCLE_LABEL[mode] ?? formatTime(recipe.cycle_time)
 
   return (
@@ -64,7 +73,10 @@ const RecipeEntry = memo(({ recipe, multiplier, mode, onSelectRecipe, onClose })
   )
 })
 
-const RecipeSelector = ({ onSelectRecipe }) => {
+const machineCategories = ['All', ...new Set(machines.map(m => m.category))].sort()
+const machineTiers      = ['All', ...new Set(machines.map(m => m.tier))].sort((a, b) => a === 'All' ? -1 : a - b)
+
+const RecipeSelector = ({ onSelectRecipe, trigger }) => {
   const [open, setOpen]                       = useState(false)
   const [tab, setTab]                         = useState('Product')
   const [search, setSearch]                   = useState('')
@@ -75,10 +87,24 @@ const RecipeSelector = ({ onSelectRecipe }) => {
   const [sort, setSort]                       = useState({ col: null, dir: null })
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [selectedMachine, setSelectedMachine] = useState(null)
+  const [roleFilter, setRoleFilter]           = useState(new Set())
   const { mode }                              = useDisplayMode()
 
-  const handleClose = useCallback(() => { setOpen(false); setSelectedProduct(null); setSelectedMachine(null) }, [])
-  const handleBack  = useCallback(() => { setSelectedProduct(null); setSelectedMachine(null) }, [])
+  useEffect(() => {
+    if (!trigger) return
+    const product = productsMap[trigger.productId]
+    if (!product) return
+    setTab('Product')
+    setSearch('')
+    setSort({ col: null, dir: null })
+    setSelectedProduct(product)
+    setSelectedMachine(null)
+    setRoleFilter(new Set([trigger.role]))
+    setOpen(true)
+  }, [trigger])
+
+  const handleClose = useCallback(() => { setOpen(false); setSelectedProduct(null); setSelectedMachine(null); setRoleFilter(new Set()) }, [])
+  const handleBack  = useCallback(() => { setSelectedProduct(null); setSelectedMachine(null); setRoleFilter(new Set()) }, [])
 
   const handleTabChange = useCallback((t) => {
     setTab(t)
@@ -86,6 +112,7 @@ const RecipeSelector = ({ onSelectRecipe }) => {
     setSort({ col: null, dir: null })
     setSelectedProduct(null)
     setSelectedMachine(null)
+    setRoleFilter(new Set())
     setCat('All')
     setSubcat('All')
     setTier('All')
@@ -99,21 +126,22 @@ const RecipeSelector = ({ onSelectRecipe }) => {
     })
   }, [])
 
-  const multipliers = useMemo(() =>
-    Object.fromEntries(recipes.map(r => [r.id, MODE_SECONDS[mode] != null ? MODE_SECONDS[mode] / r.cycle_time : null])),
-    [mode]
-  )
-
   const activeSelection = selectedProduct ?? selectedMachine
 
   const activeRecipes = useMemo(() => {
-    if (selectedProduct) return recipes.filter(r =>
-      r.inputs.some(i  => i.product_id === selectedProduct.id) ||
-      r.outputs.some(o => o.product_id === selectedProduct.id)
-    )
+    if (selectedProduct) {
+      if (roleFilter.size === 0)
+        return recipes.filter(r =>
+          r.inputs.some(i  => i.product_id === selectedProduct.id) ||
+          r.outputs.some(o => o.product_id === selectedProduct.id)
+        )
+      return recipes.filter(r =>
+        [...roleFilter].some(role => matchesRole(r, selectedProduct.id, role))
+      )
+    }
     if (selectedMachine) return recipes.filter(r => r.machine_id === selectedMachine.id)
     return []
-  }, [selectedProduct, selectedMachine])
+  }, [selectedProduct, selectedMachine, roleFilter])
 
   const filteredProducts = useMemo(() => {
     if (tab !== 'Product' || activeSelection) return []
@@ -128,22 +156,12 @@ const RecipeSelector = ({ onSelectRecipe }) => {
         else if (sort.col === 'rp_mult') cmp = a.rp_multiplier - b.rp_multiplier
         return sort.dir === 'asc' ? cmp : -cmp
       })
-  }, [tab, search, typeFilter, sort, activeSelection])
-
-  const machineCategories = useMemo(() =>
-    ['All', ...new Set(machines.map(m => m.category))].sort(),
-    []
-  )
+  }, [tab, search, typeFilter, sort, selectedProduct])
 
   const machineSubcategories = useMemo(() => {
     if (catFilter === 'All') return ['All']
     return ['All', ...new Set(machines.filter(m => m.category === catFilter).map(m => m.subcategory))].sort()
   }, [catFilter])
-
-  const machineTiers = useMemo(() =>
-    ['All', ...new Set(machines.map(m => m.tier))].sort((a, b) => a === 'All' ? -1 : a - b),
-    []
-  )
 
   const filteredMachines = useMemo(() => {
     if (tab !== 'Machine' || activeSelection) return []
@@ -160,12 +178,17 @@ const RecipeSelector = ({ onSelectRecipe }) => {
         const cmp = sort.col === 'name' ? a.name.localeCompare(b.name) : a.cost - b.cost
         return sort.dir === 'asc' ? cmp : -cmp
       })
-  }, [tab, search, catFilter, subcatFilter, tierFilter, sort, activeSelection])
+  }, [tab, search, catFilter, subcatFilter, tierFilter, sort, selectedMachine])
 
   return (
     <>
       <div className="ui-top-bar">
-        <button className="ui-btn-rect" onClick={() => setOpen(o => !o)}>Select Recipe</button>
+        <button className="ui-btn-rect" onClick={() => {
+          setOpen(o => !o)
+          setSelectedProduct(null)
+          setSelectedMachine(null)
+          setRoleFilter(new Set())
+        }}>Select Recipe</button>
       </div>
 
       {open && (
@@ -250,13 +273,32 @@ const RecipeSelector = ({ onSelectRecipe }) => {
             ) : (
               <div className="ui-recipe-list">
                 <button className="ui-recipe-back" onClick={handleBack}>← {activeSelection.name}</button>
+              {selectedProduct && (
+                <div className="ui-role-filter">
+                  {ROLE_FILTERS.map(r => {
+                    const active = roleFilter.has(r)
+                    return (
+                      <button
+                        key={r}
+                        className={`ui-role-btn${active ? ' ui-role-btn--active' : ''}`}
+                        onClick={() => setRoleFilter(prev => {
+                          const next = new Set(prev)
+                          next.has(r) ? next.delete(r) : next.add(r)
+                          return next
+                        })}
+                      >
+                        {r}
+                      </button>
+                    )
+                  })}
+                </div>
+              )}
                 {activeRecipes.length === 0
                   ? <div className="ui-recipe-list-empty">No recipes found</div>
                   : activeRecipes.map(r => (
                       <RecipeEntry
                         key={r.id}
                         recipe={r}
-                        multiplier={multipliers[r.id]}
                         mode={mode}
                         onSelectRecipe={onSelectRecipe}
                         onClose={handleClose}

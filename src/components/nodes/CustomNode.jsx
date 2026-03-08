@@ -12,26 +12,27 @@ const CustomNode = memo(({ data }) => {
   const { recipe, machine } = data
   const { mode } = useDisplayMode()
 
-  const inputCount  = recipe?.inputs.length  ?? 0
-  const outputCount = recipe?.outputs.length ?? 0
-
   const derived = useMemo(() => {
     if (!recipe || !machine) return null
-    const secs = MODE_SECONDS[mode]
+    const inputCount  = recipe.inputs.length
+    const outputCount = recipe.outputs.length
+    const secs        = MODE_SECONDS[mode]
     return {
-      maxCount:            Math.max(inputCount, outputCount, 1),
-      nodeStyle:           { width: NODE_WIDTH, height: getNodeHeight(inputCount, outputCount) },
-      tierStyle:           { color: TIER_COLORS[machine.tier] || 'var(--text-primary)' },
+      inputCount,
+      outputCount,
+      maxCount:         Math.max(inputCount, outputCount, 1),
+      nodeStyle:        { width: NODE_WIDTH, height: getNodeHeight(inputCount, outputCount) },
+      tierStyle:        { color: TIER_COLORS[machine.tier] || 'var(--text-primary)' },
       cycleDisplay:     CYCLE_LABEL[mode] ?? formatTime(recipe.cycle_time),
       powerDisplay:     formatMetric(recipe.power_consumption),
       pollutionDisplay: formatMetric(recipe.pollution),
       multiplier:       secs != null ? secs / recipe.cycle_time : null,
     }
-  }, [inputCount, outputCount, recipe, machine, mode])
+  }, [recipe, machine, mode])
 
   if (!derived) return null
 
-  const { maxCount, nodeStyle, tierStyle, cycleDisplay, powerDisplay, pollutionDisplay, multiplier } = derived
+  const { inputCount, outputCount, maxCount, nodeStyle, tierStyle, cycleDisplay, powerDisplay, pollutionDisplay, multiplier } = derived
 
   return (
     <div className="custom-node" style={nodeStyle}>

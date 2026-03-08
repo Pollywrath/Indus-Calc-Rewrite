@@ -1,9 +1,28 @@
 [
-  {
-    "id": "p_iron_plate",
-    "name": "Iron Plate",
-    "sell_price": 10.5,
-    "rp_multiplier": 1.0,
-    "type": "Item"
-  }
+  { "id": "p_iron_ore",       "name": "Iron Ore",       "sell_price": 2.0,   "rp_multiplier": 0.5, "type": "Item"  },
+  { "id": "p_copper_ore",     "name": "Copper Ore",     "sell_price": 2.0,   "rp_multiplier": 0.5, "type": "Item"  },
+  { "id": "p_coal",           "name": "Coal",           "sell_price": 3.0,   "rp_multiplier": 0.5, "type": "Item"  },
+  { "id": "p_stone",          "name": "Stone",          "sell_price": 1.0,   "rp_multiplier": 0.3, "type": "Item"  },
+  { "id": "p_iron_plate",     "name": "Iron Plate",     "sell_price": 10.5,  "rp_multiplier": 1.0, "type": "Item"  },
+  { "id": "p_copper_plate",   "name": "Copper Plate",   "sell_price": 10.5,  "rp_multiplier": 1.0, "type": "Item"  },
+  { "id": "p_steel_plate",    "name": "Steel Plate",    "sell_price": 30.0,  "rp_multiplier": 2.0, "type": "Item"  },
+  { "id": "p_stone_brick",    "name": "Stone Brick",    "sell_price": 4.0,   "rp_multiplier": 0.8, "type": "Item"  },
+  { "id": "p_iron_gear",      "name": "Iron Gear",      "sell_price": 18.0,  "rp_multiplier": 1.5, "type": "Item"  },
+  { "id": "p_copper_wire",    "name": "Copper Wire",    "sell_price": 7.0,   "rp_multiplier": 1.2, "type": "Item"  },
+  { "id": "p_pipe",           "name": "Pipe",           "sell_price": 14.0,  "rp_multiplier": 1.0, "type": "Item"  },
+  { "id": "p_steel_beam",     "name": "Steel Beam",     "sell_price": 48.0,  "rp_multiplier": 2.5, "type": "Item"  },
+  { "id": "p_circuit_board",  "name": "Circuit Board",  "sell_price": 65.0,  "rp_multiplier": 3.0, "type": "Item"  },
+  { "id": "p_plastic",        "name": "Plastic",        "sell_price": 25.0,  "rp_multiplier": 2.0, "type": "Item"  },
+  { "id": "p_motor",          "name": "Motor",          "sell_price": 120.0, "rp_multiplier": 4.0, "type": "Item"  },
+  { "id": "p_battery",        "name": "Battery",        "sell_price": 80.0,  "rp_multiplier": 3.5, "type": "Item"  },
+  { "id": "p_advanced_circuit","name": "Advanced Circuit","sell_price": 200.0,"rp_multiplier": 5.0, "type": "Item"  },
+  { "id": "p_engine",         "name": "Engine",         "sell_price": 500.0, "rp_multiplier": 8.0, "type": "Item"  },
+  { "id": "p_solar_panel",    "name": "Solar Panel",    "sell_price": 800.0, "rp_multiplier": 10.0,"type": "Item"  },
+  { "id": "p_computer",       "name": "Computer",       "sell_price": 1200.0,"rp_multiplier": 12.0,"type": "Item"  },
+  { "id": "p_water",          "name": "Water",          "sell_price": 0.5,   "rp_multiplier": 0.1, "type": "Fluid" },
+  { "id": "p_crude_oil",      "name": "Crude Oil",      "sell_price": 5.0,   "rp_multiplier": 0.5, "type": "Fluid" },
+  { "id": "p_heavy_oil",      "name": "Heavy Oil",      "sell_price": 8.0,   "rp_multiplier": 1.0, "type": "Fluid" },
+  { "id": "p_light_oil",      "name": "Light Oil",      "sell_price": 10.0,  "rp_multiplier": 1.2, "type": "Fluid" },
+  { "id": "p_petroleum_gas",  "name": "Petroleum Gas",  "sell_price": 12.0,  "rp_multiplier": 1.5, "type": "Fluid" },
+  { "id": "p_sulfuric_acid",  "name": "Sulfuric Acid",  "sell_price": 18.0,  "rp_multiplier": 2.0, "type": "Fluid" }
 ]
