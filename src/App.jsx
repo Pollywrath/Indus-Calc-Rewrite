@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useState, useMemo } from 'react'
 import { ReactFlow, Background, BackgroundVariant, addEdge, useNodesState, useEdgesState } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import CustomNode from './components/nodes/CustomNode'
@@ -7,6 +7,7 @@ import { DisplayModeProvider } from './contexts/DisplayModeContext'
 import NodeActionsContext from './contexts/NodeActionsContext'
 import { useDashAnimation } from './hooks/useDashAnimation'
 import RecipeSelector from './components/ui/RecipeSelector'
+import DataEditor from './components/ui/DataEditor'
 import { machinesMap } from './data/store'
 
 const nodeTypes          = { customNode: CustomNode }
@@ -24,11 +25,26 @@ export default function App() {
   const onConnect        = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges])
   const onDragStart      = useCallback(() => document.body.classList.add('is-dragging'), [])
   const onDragStop       = useCallback(() => document.body.classList.remove('is-dragging'), [])
-  const onProductClick   = useCallback((productId, role) => {
+  const onProductClick = useCallback((productId, role) => {
     setRecipeTrigger({ productId, role, ts: Date.now() })
   }, [])
 
-  const nodeActions = { onProductClick }
+  const onDeleteNode = useCallback((nodeId) => {
+    setNodes(ns => ns.filter(n => n.id !== nodeId))
+    setEdges(es => es.filter(e => e.source !== nodeId && e.target !== nodeId))
+  }, [setNodes, setEdges])
+
+  const onClearHandle = useCallback((nodeId, handleId) => {
+    setEdges(es => es.filter(e =>
+      !(e.source === nodeId && e.sourceHandle === handleId) &&
+      !(e.target === nodeId && e.targetHandle === handleId)
+    ))
+  }, [setEdges])
+
+  const nodeActions = useMemo(
+    () => ({ onProductClick, onDeleteNode, onClearHandle }),
+    [onProductClick, onDeleteNode, onClearHandle]
+  )
 
   const onSelectRecipe   = useCallback((recipe) => {
     const machine = machinesMap[recipe.machine_id] ?? null
@@ -43,7 +59,10 @@ export default function App() {
   return (
     <DisplayModeProvider>
       <NodeActionsContext.Provider value={nodeActions}>
-      <RecipeSelector onSelectRecipe={onSelectRecipe} trigger={recipeTrigger} />
+      <div className="ui-top-bar">
+        <RecipeSelector onSelectRecipe={onSelectRecipe} trigger={recipeTrigger} />
+        <DataEditor />
+      </div>
       <div className="flow-canvas">
         <ReactFlow
           nodes={nodes}

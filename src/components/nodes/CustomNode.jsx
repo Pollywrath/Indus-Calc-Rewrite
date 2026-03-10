@@ -1,41 +1,50 @@
-import { memo, useMemo } from 'react'
+import { memo, useMemo, useCallback } from 'react'
 import IORect from './IORect'
 import NodeHandle from './NodeHandle'
 import { NODE_WIDTH, TOP_SECTION_HEIGHT, SIDE_PADDING, COL_WIDTH, TIER_COLORS, getNodeHeight } from './nodeConstants'
-import { formatMetric, formatTime } from '../../utils/formatters'
-import { useDisplayMode, MODE_SECONDS, CYCLE_LABEL } from '../../contexts/DisplayModeContext'
+import { formatMetric } from '../../utils/formatters'
+import { useDisplayMode } from '../../contexts/DisplayModeContext'
+import { useNodeActions } from '../../contexts/NodeActionsContext'
+import { CONTROLS, matches } from '../../config/controls'
 
 const infoAreaStyle  = { height: TOP_SECTION_HEIGHT }
 const ioColumnsStyle = { gridTemplateColumns: `${COL_WIDTH}px 1fr ${COL_WIDTH}px`, padding: `0 ${SIDE_PADDING}px` }
 
-const CustomNode = memo(({ data }) => {
+const CustomNode = memo(({ id, data }) => {
   const { recipe, machine } = data
-  const { mode } = useDisplayMode()
+  const { mode, getMultiplier, getCycleDisplay } = useDisplayMode()
+  const nodeActions = useNodeActions()
+
+  const handleClick = useCallback((e) => {
+    if (matches(e, CONTROLS.DELETE_NODE)) {
+      e.stopPropagation()
+      nodeActions?.onDeleteNode(id)
+    }
+  }, [id, nodeActions])
 
   const derived = useMemo(() => {
     if (!recipe || !machine) return null
     const inputCount  = recipe.inputs.length
     const outputCount = recipe.outputs.length
-    const secs        = MODE_SECONDS[mode]
     return {
       inputCount,
       outputCount,
       maxCount:         Math.max(inputCount, outputCount, 1),
       nodeStyle:        { width: NODE_WIDTH, height: getNodeHeight(inputCount, outputCount) },
       tierStyle:        { color: TIER_COLORS[machine.tier] || 'var(--text-primary)' },
-      cycleDisplay:     CYCLE_LABEL[mode] ?? formatTime(recipe.cycle_time),
+      cycleDisplay:     getCycleDisplay(recipe.cycle_time),
       powerDisplay:     formatMetric(recipe.power_consumption),
       pollutionDisplay: formatMetric(recipe.pollution),
-      multiplier:       secs != null ? secs / recipe.cycle_time : null,
+      multiplier:       getMultiplier(recipe.cycle_time),
     }
-  }, [recipe, machine, mode])
+  }, [recipe, machine, mode, getMultiplier, getCycleDisplay])
 
   if (!derived) return null
 
   const { inputCount, outputCount, maxCount, nodeStyle, tierStyle, cycleDisplay, powerDisplay, pollutionDisplay, multiplier } = derived
 
   return (
-    <div className="custom-node" style={nodeStyle}>
+    <div className="custom-node" style={nodeStyle} onClick={handleClick}>
       <div className="node-info-area" style={infoAreaStyle}>
         <div className="node-recipe-name">{recipe.name}</div>
         <div className="node-stats-row">
@@ -60,13 +69,14 @@ const CustomNode = memo(({ data }) => {
           </div>
         </div>
         <div className="node-handles-container">
-          {recipe.inputs.map((_, i)  => <NodeHandle key={i} side="input"  index={i} sideCount={inputCount}  maxCount={maxCount} />)}
-          {recipe.outputs.map((_, i) => <NodeHandle key={i} side="output" index={i} sideCount={outputCount} maxCount={maxCount} />)}
+          {recipe.inputs.map((_, i)  => <NodeHandle key={i} nodeId={id} side="input"  index={i} sideCount={inputCount}  maxCount={maxCount} />)}
+          {recipe.outputs.map((_, i) => <NodeHandle key={i} nodeId={id} side="output" index={i} sideCount={outputCount} maxCount={maxCount} />)}
         </div>
       </div>
     </div>
   )
 }, (prev, next) =>
+  prev.id === next.id &&
   prev.data.recipe === next.data.recipe &&
   prev.data.machine === next.data.machine
 )

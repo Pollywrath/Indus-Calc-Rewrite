@@ -1,13 +1,24 @@
 import { createContext, useContext, useState, useCallback, useMemo } from 'react'
+import { formatTime } from '../utils/formatters'
 
-export const MODES        = ['cycle', 'second', 'minute', 'hour']
-export const MODE_LABELS  = { cycle: '/cycle', second: '/sec', minute: '/min', hour: '/hr' }
-export const MODE_SECONDS = { cycle: null, second: 1, minute: 60, hour: 3600 }
-export const CYCLE_LABEL  = { cycle: null, second: '1s', minute: '1m', hour: '1h' }
+const MODES = ['cycle', 'second', 'minute', 'hour']
+
+export const MODE_CONFIG = {
+  cycle:  { label: '/cycle', seconds: null, windowLabel: null  },
+  second: { label: '/sec',   seconds: 1,    windowLabel: '1s'  },
+  minute: { label: '/min',   seconds: 60,   windowLabel: '1m'  },
+  hour:   { label: '/hr',    seconds: 3600, windowLabel: '1h'  },
+}
 
 const DisplayModeContext = createContext()
 
-export const useDisplayMode = () => useContext(DisplayModeContext)
+export const useDisplayMode = () => {
+  const { mode, cycleNext } = useContext(DisplayModeContext)
+  const { seconds, windowLabel } = MODE_CONFIG[mode]
+  const getMultiplier   = useCallback((cycleTime) => seconds != null ? seconds / cycleTime : null, [seconds])
+  const getCycleDisplay = useCallback((cycleTime) => windowLabel ?? formatTime(cycleTime), [windowLabel])
+  return { mode, cycleNext, getMultiplier, getCycleDisplay }
+}
 
 export const DisplayModeProvider = ({ children }) => {
   const [mode, setMode] = useState('cycle')

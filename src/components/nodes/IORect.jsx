@@ -1,4 +1,4 @@
-import { memo, useMemo } from 'react'
+import { memo, useMemo, useCallback } from 'react'
 import { RECT_HEIGHT, COL_WIDTH } from './nodeConstants'
 import { formatQuantity } from '../../utils/formatters'
 import { productsMap } from '../../data/store'
@@ -14,11 +14,11 @@ const IORect = memo(({ item, side, multiplier }) => {
     return `${formatQuantity(qty)}x ${name}`
   }, [item.quantity, item.product_id, multiplier])
 
-  const handleClick = (e) => {
+  const handleClick = useCallback((e) => {
     e.stopPropagation()
     const role = side === 'input' ? 'Producers' : 'Consumers'
     nodeActions?.onProductClick(item.product_id, role)
-  }
+  }, [side, item.product_id, nodeActions])
 
   return (
     <div className={`node-rect ${side}`} style={rectStyle} onClick={handleClick}>

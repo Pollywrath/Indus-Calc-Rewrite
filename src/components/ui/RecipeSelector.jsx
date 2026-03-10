@@ -1,7 +1,7 @@
 import { memo, useState, useMemo, useCallback, useEffect } from 'react'
 import { recipes, products, machines, productsMap, machinesMap } from '../../data/store'
-import { useDisplayMode, MODE_SECONDS, CYCLE_LABEL } from '../../contexts/DisplayModeContext'
-import { formatQuantity, formatTime } from '../../utils/formatters'
+import { useDisplayMode, MODE_CONFIG } from '../../contexts/DisplayModeContext'
+import { formatQuantity } from '../../utils/formatters'
 
 const TYPE_FILTERS = ['All', 'Item', 'Fluid']
 const ROLE_FILTERS = ['Producers', 'Consumers', 'Disposal', 'Heat Source', 'Depot']
@@ -38,11 +38,11 @@ const MachineRow = memo(({ machine, onSelect }) => (
   </tr>
 ))
 
-const RecipeEntry = memo(({ recipe, mode, onSelectRecipe, onClose }) => {
+const RecipeEntry = memo(({ recipe, onSelectRecipe, onClose }) => {
+  const { getMultiplier, getCycleDisplay } = useDisplayMode()
   const machine      = machinesMap[recipe.machine_id]
-  const secs         = MODE_SECONDS[mode]
-  const multiplier   = secs != null ? secs / recipe.cycle_time : null
-  const cycleDisplay = CYCLE_LABEL[mode] ?? formatTime(recipe.cycle_time)
+  const multiplier   = getMultiplier(recipe.cycle_time)
+  const cycleDisplay = getCycleDisplay(recipe.cycle_time)
 
   return (
     <div className="ui-recipe-entry" onClick={() => { onSelectRecipe(recipe); onClose() }}>
@@ -88,7 +88,7 @@ const RecipeSelector = ({ onSelectRecipe, trigger }) => {
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [selectedMachine, setSelectedMachine] = useState(null)
   const [roleFilter, setRoleFilter]           = useState(new Set())
-  const { mode }                              = useDisplayMode()
+  const { mode, cycleNext } = useDisplayMode()
 
   useEffect(() => {
     if (!trigger) return
@@ -182,13 +182,16 @@ const RecipeSelector = ({ onSelectRecipe, trigger }) => {
 
   return (
     <>
-      <div className="ui-top-bar">
+      <div className="rs-top-group">
         <button className="ui-btn-rect" onClick={() => {
           setOpen(o => !o)
           setSelectedProduct(null)
           setSelectedMachine(null)
           setRoleFilter(new Set())
         }}>Select Recipe</button>
+        <button className="ui-btn-mode" onClick={cycleNext}>
+          {MODE_CONFIG[mode].label}
+        </button>
       </div>
 
       {open && (
@@ -299,7 +302,6 @@ const RecipeSelector = ({ onSelectRecipe, trigger }) => {
                       <RecipeEntry
                         key={r.id}
                         recipe={r}
-                        mode={mode}
                         onSelectRecipe={onSelectRecipe}
                         onClose={handleClose}
                       />
