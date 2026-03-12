@@ -1,0 +1,16 @@
+.bv-node {
+  background: var(--node-bg);
+  border: 2px solid var(--node-border);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bv-node-name {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: center;
+  padding: 4px;
+}

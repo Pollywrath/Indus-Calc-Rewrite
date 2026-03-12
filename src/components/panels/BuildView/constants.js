@@ -1,0 +1,1 @@
+export const BUILD_CELL_SIZE = 48

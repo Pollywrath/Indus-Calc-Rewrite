@@ -1,0 +1,201 @@
+.ui-table-wrap {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.ui-table-wrap::-webkit-scrollbar,
+.ui-recipe-list::-webkit-scrollbar { width: 6px; }
+.ui-table-wrap::-webkit-scrollbar-track,
+.ui-recipe-list::-webkit-scrollbar-track { background: transparent; }
+.ui-table-wrap::-webkit-scrollbar-thumb,
+.ui-recipe-list::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
+
+.ui-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.ui-table thead {
+  position: sticky;
+  top: 0;
+  background: var(--bg-secondary);
+  z-index: 1;
+}
+
+.ui-table-th {
+  padding: 10px 16px;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-align: left;
+  border-bottom: var(--border-divider-line);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.ui-table-th--sortable { cursor: pointer; transition: color var(--transition); }
+.ui-table-th--sortable:hover,
+.ui-table-th--active { color: var(--text-primary); }
+
+.ui-table th:nth-child(1) { width: 55%; }
+.ui-table th:nth-child(2) { width: 25%; }
+.ui-table th:nth-child(3) { width: 20%; }
+
+.ui-table--machines th:nth-child(1) { width: 75%; }
+.ui-table--machines th:nth-child(2) { width: 25%; }
+
+.ui-sort-indicator {
+  font-size: 10px;
+  margin-left: 4px;
+  opacity: 0.7;
+}
+
+.ui-table-row { transition: background 0.1s; }
+.ui-table-row:hover { background: var(--bg-main); }
+
+.ui-table-td {
+  padding: 9px 16px;
+  font-size: var(--font-size-sm);
+  border-bottom: var(--border-divider-line);
+  color: var(--stat-value);
+}
+
+.ui-table-td--name { color: var(--text-primary); font-weight: 600; }
+.ui-table-td--num  { color: var(--stat-value); font-variant-numeric: tabular-nums; }
+.ui-table-td--sec  { color: var(--text-secondary); font-size: var(--font-size-xs); }
+
+.ui-table-empty,
+.ui-recipe-list-empty {
+  padding: 24px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.ui-table-row--clickable { cursor: pointer; }
+
+/* ── Recipe List ── */
+
+.ui-recipe-list {
+  overflow-y: auto;
+  flex: 1;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ui-recipe-back {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  cursor: pointer;
+  padding: 4px 4px 8px;
+  text-align: left;
+  letter-spacing: 0.03em;
+  transition: color var(--transition);
+  flex-shrink: 0;
+}
+
+.ui-recipe-back:hover { color: var(--border-primary); }
+
+.ui-recipe-entry {
+  background: var(--bg-main);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: border-color var(--transition);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ui-recipe-entry:hover { border-color: var(--border-primary); }
+
+.ui-recipe-entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.ui-recipe-entry-name {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.ui-recipe-entry-meta {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.ui-recipe-io {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ui-recipe-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.ui-recipe-arrow {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.ui-recipe-item {
+  display: flex;
+  gap: 5px;
+  align-items: baseline;
+  font-size: var(--font-size-xs);
+  overflow: hidden;
+}
+
+.ui-recipe-qty { font-weight: 700; flex-shrink: 0; }
+.ui-recipe-item--input  .ui-recipe-qty { color: var(--input-text); }
+.ui-recipe-item--output .ui-recipe-qty { color: var(--output-text); }
+
+.ui-recipe-item-name { color: var(--text-secondary); }
+
+/* ── Role Filter ── */
+
+.ui-role-filter {
+  display: flex;
+  gap: 6px;
+  padding: 6px 16px 8px;
+  flex-shrink: 0;
+}
+
+.ui-role-btn {
+  flex: 1;
+  background: none;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  padding: 5px 0;
+  cursor: pointer;
+  transition: border-color var(--transition), color var(--transition);
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.ui-role-btn:hover { border-color: var(--border-primary); color: var(--text-primary); }
+.ui-role-btn--active { border-color: var(--border-primary); color: var(--text-primary); background: var(--bg-main); }

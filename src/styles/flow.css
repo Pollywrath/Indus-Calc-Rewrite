@@ -1,0 +1,174 @@
+.flow-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.react-flow__background { background: var(--bg-main); }
+
+@keyframes dash-move {
+  to { stroke-dashoffset: -12px; }
+}
+
+.custom-edge {
+  stroke: var(--border-primary);
+  stroke-width: 2;
+  stroke-dasharray: 8 4;
+  animation: dash-move 0.15s linear infinite;
+}
+
+.custom-node {
+  background: var(--node-bg);
+  border: 2px solid var(--node-border);
+  border-radius: var(--radius-lg);
+  color: var(--text-primary);
+  font-weight: 500;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+.node-info-area {
+  padding: 15px 20px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.node-recipe-name,
+.node-stat-row,
+.node-machine-name,
+.ui-table-td,
+.ui-recipe-entry-name,
+.ui-recipe-item-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.node-recipe-name {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.node-stats-row {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: var(--border-divider-line);
+  padding-bottom: 10px;
+}
+
+.node-stats {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  font-size: var(--font-size-xs);
+  min-height: 65px;
+  flex: 1;
+  min-width: 0;
+}
+
+.node-stat-row { color: var(--stat-value); }
+
+.node-stat-label {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.node-machine-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.node-machine-name {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  text-align: right;
+  max-width: 100%;
+  margin-bottom: 4px;
+}
+
+.node-machine-count {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.node-io-area {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.node-handles-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.node-handles-container .react-flow__handle { pointer-events: auto; }
+
+.react-flow__handle.node-handle {
+  width: 12px; height: 12px;
+  border: 2px solid var(--bg-main);
+  border-radius: 2px;
+  position: absolute;
+}
+
+.react-flow__handle.node-handle--input  { background: var(--handle-input-supplied);   left:  0; transform: translate(-50%, -50%); }
+.react-flow__handle.node-handle--output { background: var(--handle-output-connected); right: 0; transform: translate(50%,  -50%); }
+
+.node-io-columns {
+  display: grid;
+  height: 100%;
+  align-items: center;
+  width: 100%;
+}
+
+.node-io-column {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 0;
+}
+
+.node-io-left  { align-items: flex-start; }
+.node-io-right { align-items: flex-end; justify-self: end; }
+
+.node-rect {
+  border: 2px solid;
+  border-radius: var(--radius-sm);
+  padding: 4px 8px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  text-align: center;
+  cursor: pointer;
+  transition: filter var(--transition);
+}
+
+.node-rect:hover { opacity: 0.8; }
+
+.node-rect.input  { background: var(--input-bg);  border-color: var(--input-border);  color: var(--input-text);  }
+.node-rect.output { background: var(--output-bg); border-color: var(--output-border); color: var(--output-text); }
+
+.node-rect-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+  word-break: break-word;
+}

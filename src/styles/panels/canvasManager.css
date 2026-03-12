@@ -1,0 +1,14 @@
+.cm-entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  margin-bottom: 6px;
+}
+
+.cm-entry-info   { display: flex; flex-direction: column; gap: 3px; }
+.cm-entry-name   { font-size: var(--font-size-sm); font-weight: 600; color: var(--text-primary); }
+.cm-entry-meta   { font-size: var(--font-size-xs); color: var(--text-secondary); }
+.cm-entry-actions { display: flex; gap: 6px; align-items: center; }

@@ -1,32 +1,69 @@
-import { useCallback, useState, useMemo } from 'react'
-import { ReactFlow, Background, BackgroundVariant, addEdge, useNodesState, useEdgesState } from '@xyflow/react'
+import { useCallback, useState, useMemo, useRef, useEffect } from 'react'
+import { ReactFlow, Background, BackgroundVariant, addEdge, useNodesState, useEdgesState, useReactFlow } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
-import CustomNode from './components/nodes/CustomNode'
-import CustomEdge from './components/edges/CustomEdge'
+import { nodeTypes, edgeTypes, defaultEdgeOptions } from './components/flow/registry'
+import { NODE_WIDTH, RECT_STEP, NODE_GAP, getNodeHeight } from './components/flow/nodes/nodeConstants'
 import { DisplayModeProvider } from './contexts/DisplayModeContext'
-import NodeActionsContext from './contexts/NodeActionsContext'
-import { useDashAnimation } from './hooks/useDashAnimation'
-import RecipeSelector from './components/ui/RecipeSelector'
-import DataEditor from './components/ui/DataEditor'
-import { machinesMap } from './data/store'
+import { DataProvider }        from './contexts/DataContext'
+import { ViewModeProvider }    from './contexts/ViewModeContext'
+import { SolverProvider }      from './contexts/SolverContext'
+import NodeActionsContext       from './contexts/NodeActionsContext'
+import { useData }             from './contexts/DataContext'
+import RecipeSelector          from './components/panels/RecipeSelector'
+import DataEditor              from './components/panels/DataEditor'
 
-const nodeTypes          = { customNode: CustomNode }
-const edgeTypes          = { customEdge: CustomEdge }
-const defaultEdgeOptions = { type: 'customEdge' }
-const snapGrid           = [20, 20]
+const SNAP_X   = NODE_WIDTH / 20
+const SNAP_Y   = RECT_STEP  / 4
+const snapGrid = [SNAP_X, SNAP_Y]
+const snapVal  = (val, grid) => Math.round(val / grid) * grid
+const snapPos  = (x, y) => ({ x: snapVal(x, SNAP_X), y: snapVal(y, SNAP_Y) })
 
-export default function App() {
-  useDashAnimation()
+// Sits inside ReactFlow so it can call useReactFlow
+const SelectRecipeBridge = ({ machinesMap, recipeTrigger, setNodes, onReadyRef }) => {
+  const { screenToFlowPosition } = useReactFlow()
 
+  const onSelectRecipe = useCallback((recipe) => {
+    const machine = machinesMap[recipe.machine_id] ?? null
+    const newH    = getNodeHeight(recipe.inputs.length, recipe.outputs.length)
+    setNodes(ns => {
+      const source = recipeTrigger?.sourceNodeId
+        ? ns.find(n => n.id === recipeTrigger.sourceNodeId)
+        : null
+      let position
+      if (source) {
+        const srcH    = getNodeHeight(source.data.recipe.inputs.length, source.data.recipe.outputs.length)
+        const centerY = source.position.y + srcH / 2
+        const toRight = recipeTrigger.role === 'Consumers'
+        const rawX    = toRight
+          ? source.position.x + NODE_WIDTH + NODE_GAP
+          : source.position.x - NODE_WIDTH - NODE_GAP
+        position = snapPos(rawX, centerY - newH / 2)
+      } else {
+        const fp = screenToFlowPosition({ x: window.innerWidth / 2, y: window.innerHeight / 2 })
+        position = snapPos(fp.x - NODE_WIDTH / 2, fp.y - newH / 2)
+      }
+      return [...ns, { id: crypto.randomUUID(), type: 'customNode', position, data: { recipe, machine } }]
+    })
+  }, [machinesMap, recipeTrigger, setNodes, screenToFlowPosition])
+
+  useEffect(() => { onReadyRef.current = onSelectRecipe }, [onSelectRecipe, onReadyRef])
+
+  return null
+}
+
+const AppInner = () => {
+  const { machinesMap }                  = useData()
   const [nodes, setNodes, onNodesChange] = useNodesState([])
   const [edges, setEdges, onEdgesChange] = useEdgesState([])
   const [recipeTrigger, setRecipeTrigger] = useState(null)
+  const onSelectRecipeRef                = useRef(null)
 
-  const onConnect        = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges])
-  const onDragStart      = useCallback(() => document.body.classList.add('is-dragging'), [])
-  const onDragStop       = useCallback(() => document.body.classList.remove('is-dragging'), [])
-  const onProductClick = useCallback((productId, role) => {
-    setRecipeTrigger({ productId, role, ts: Date.now() })
+  const onConnect   = useCallback((params) => setEdges(eds => addEdge(params, eds)), [setEdges])
+  const onDragStart = useCallback(() => document.body.classList.add('is-dragging'), [])
+  const onDragStop  = useCallback(() => document.body.classList.remove('is-dragging'), [])
+
+  const onProductClick = useCallback((productId, role, sourceNodeId) => {
+    setRecipeTrigger({ productId, role, sourceNodeId, ts: Date.now() })
   }, [])
 
   const onDeleteNode = useCallback((nodeId) => {
@@ -46,19 +83,12 @@ export default function App() {
     [onProductClick, onDeleteNode, onClearHandle]
   )
 
-  const onSelectRecipe   = useCallback((recipe) => {
-    const machine = machinesMap[recipe.machine_id] ?? null
-    setNodes(ns => [...ns, {
-      id:       crypto.randomUUID(),
-      type:     'customNode',
-      position: { x: 60 + (ns.length % 5) * 440, y: 60 + Math.floor(ns.length / 5) * 320 },
-      data:     { recipe, machine },
-    }])
-  }, [setNodes])
+  const onSelectRecipe = useCallback((recipe) => {
+    onSelectRecipeRef.current?.(recipe)
+  }, [])
 
   return (
-    <DisplayModeProvider>
-      <NodeActionsContext.Provider value={nodeActions}>
+    <NodeActionsContext.Provider value={nodeActions}>
       <div className="ui-top-bar">
         <RecipeSelector onSelectRecipe={onSelectRecipe} trigger={recipeTrigger} />
         <DataEditor />
@@ -74,20 +104,39 @@ export default function App() {
           edgeTypes={edgeTypes}
           defaultEdgeOptions={defaultEdgeOptions}
           fitView
-          snapToGrid={true}
+          snapToGrid
           snapGrid={snapGrid}
           nodesFocusable={false}
           edgesFocusable={false}
           edgesReconnectable={false}
           elevateNodesOnSelect={false}
-          onlyRenderVisibleElements={true}
+          onlyRenderVisibleElements
           onNodeDragStart={onDragStart}
           onNodeDragStop={onDragStop}
         >
           <Background variant={BackgroundVariant.Dots} color="var(--border-light)" gap={24} size={1.5} />
+          <SelectRecipeBridge
+            machinesMap={machinesMap}
+            recipeTrigger={recipeTrigger}
+            setNodes={setNodes}
+            onReadyRef={onSelectRecipeRef}
+          />
         </ReactFlow>
       </div>
     </NodeActionsContext.Provider>
-    </DisplayModeProvider>
+  )
+}
+
+export default function App() {
+  return (
+    <DataProvider>
+      <ViewModeProvider>
+        <SolverProvider>
+          <DisplayModeProvider>
+            <AppInner />
+          </DisplayModeProvider>
+        </SolverProvider>
+      </ViewModeProvider>
+    </DataProvider>
   )
 }

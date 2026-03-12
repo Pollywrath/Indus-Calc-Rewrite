@@ -19,6 +19,8 @@ export const formatMetric = (num) => {
 export const formatQuantity    = (num) => isInvalid(num) ? String(num) : String(trim(num, 4))
 export const formatMachineCount = (num) => isInvalid(num) ? String(num) : String(trim(num, 2))
 
+export const formatComma = (num) => isInvalid(num) ? String(num) : num.toLocaleString('en-US')
+
 const S = { MINUTE: 60, HOUR: 3_600, DAY: 86_400, MONTH: 2_592_000, YEAR: 31_536_000 }
 
 export const formatTime = (sec) => {
