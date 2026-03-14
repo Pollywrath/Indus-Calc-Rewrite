@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect, useCallback, useRef, memo } from 'react'
 import { createPortal } from 'react-dom'
+import { matchesSearch } from '../../../utils/listUtils'
 
 const Sel = memo(({ value, onChange, options, placeholder }) => {
   const [open,  setOpen]  = useState(false)
@@ -14,10 +15,10 @@ const Sel = memo(({ value, onChange, options, placeholder }) => {
   }, [options])
 
   const current  = useMemo(() => normalized.find(o => String(o.value) === String(value ?? '')), [normalized, value])
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase()
-    return q ? normalized.filter(o => o.label.toLowerCase().includes(q)) : normalized
-  }, [normalized, query])
+  const filtered = useMemo(
+    () => query.trim() ? normalized.filter(o => matchesSearch(o.label, query)) : normalized,
+    [normalized, query]
+  )
 
   useEffect(() => {
     if (!open) return

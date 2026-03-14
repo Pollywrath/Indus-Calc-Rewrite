@@ -5,19 +5,21 @@ import { useNodeActions } from '../../../contexts/NodeActionsContext'
 import { CONTROLS, matches } from '../../../config/controls'
 
 const NodeHandle = memo(({ nodeId, side, index, sideCount, maxCount }) => {
-  const isInput = side === 'input'
+  const isInput     = side === 'input'
   const nodeActions = useNodeActions()
+  const deleteMode  = nodeActions?.deleteMode ?? null
 
   const style = useMemo(() => ({
     top: getHandleTop(index, sideCount, maxCount),
   }), [index, sideCount, maxCount])
 
   const handleClick = useCallback((e) => {
-    if (matches(e, CONTROLS.CLEAR_HANDLE_EDGES)) {
+    // Keyboard shortcut (desktop) OR edge-delete mode (touch / toggle)
+    if (matches(e, CONTROLS.CLEAR_HANDLE_EDGES) || deleteMode === 'edge') {
       e.stopPropagation()
       nodeActions?.onClearHandle(nodeId, `${side}-${index}`)
     }
-  }, [nodeId, side, index, nodeActions])
+  }, [nodeId, side, index, nodeActions, deleteMode])
 
   return (
     <Handle

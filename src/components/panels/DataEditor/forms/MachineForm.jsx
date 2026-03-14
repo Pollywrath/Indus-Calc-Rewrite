@@ -3,7 +3,7 @@ import { Field, Inp, Sel } from '../../../../components/common/fields'
 import { CATEGORIES, SUBCATEGORIES, TIERS } from '../constants'
 import { useArrayField } from '../helpers'
 import ArraySection from '../ArraySection'
-import { ProductNodeRow, PowerNodeRow } from '../rows'
+import { ProductNodeRow } from '../rows'
 
 const MachineForm = memo(({ form, setForm, researchData, machineData }) => {
   const subcats         = SUBCATEGORIES[form.category] ?? []
@@ -58,12 +58,6 @@ const MachineForm = memo(({ form, setForm, researchData, machineData }) => {
         colLabels={['X', 'Y', 'Face', 'Type', 'Dir', '']}>
         {form.nodes.map((n, i) => n.type !== 'Power' && (
           <ProductNodeRow key={i} node={n} onChange={v => update('nodes', i, v)} onRemove={() => remove('nodes', i)} />
-        ))}
-      </ArraySection>
-      <ArraySection label="Power Nodes" onAdd={() => add('nodes', { x: 0, y: 0, type: 'Power', direction: 'both', power_type: 'MV', capacity: 100, transfer_rate: 10 })}
-        colLabels={['X', 'Y', 'Dir', 'P.Type', 'Cap', 'Rate', '']}>
-        {form.nodes.map((n, i) => n.type === 'Power' && (
-          <PowerNodeRow key={i} node={n} onChange={v => update('nodes', i, v)} onRemove={() => remove('nodes', i)} />
         ))}
       </ArraySection>
     </>

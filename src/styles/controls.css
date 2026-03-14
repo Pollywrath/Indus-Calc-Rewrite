@@ -1,3 +1,5 @@
+/* ── Top bar (desktop: fixed top-left column) ── */
+
 .ui-top-bar {
   position: fixed;
   top: 16px;
@@ -16,6 +18,8 @@
   align-items: center;
 }
 
+/* ── Core buttons ── */
+
 .ui-btn-rect {
   background: var(--bg-secondary);
   border: 2px solid var(--border-primary);
@@ -27,9 +31,8 @@
   cursor: pointer;
   letter-spacing: 0.04em;
   transition: background var(--transition);
+  white-space: nowrap;
 }
-
-.ui-btn-rect:hover { background: var(--node-border); color: var(--bg-main); }
 
 .ui-btn-mode {
   background: transparent;
@@ -42,9 +45,106 @@
   cursor: pointer;
   letter-spacing: 0.04em;
   transition: border-color var(--transition), color var(--transition);
+  white-space: nowrap;
 }
 
-.ui-btn-mode:hover { border-color: var(--border-primary); color: var(--text-primary); }
+/* ── Canvas controls tray (bottom-center, minimizable) ── */
+
+/*
+  DOM order:  .canvas-controls-bar  →  .canvas-controls-toggle
+  Visual:     bar on top,  toggle tab hanging below it
+  flex-direction: column means bar renders first (top), toggle renders below (bottom).
+*/
+
+.canvas-controls {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* The pill bar */
+.canvas-controls-bar {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  /* When open: no bottom border, merges with toggle tab below */
+  border-bottom: none;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  padding: 10px 14px 12px;      /* extra bottom padding so content isn't flush with the seam */
+  overflow: hidden;
+  max-height: 80px;
+  opacity: 1;
+  transition: max-height 0.2s ease, opacity 0.15s ease, padding 0.2s ease;
+}
+
+/* Toggle tab — sits flush below the bar */
+.canvas-controls-toggle {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  /* When open: top border hidden so it merges with bar above */
+  border-top: none;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 9px;
+  padding: 4px 20px;
+  cursor: pointer;
+  line-height: 1;
+  transition: color var(--transition), border-radius var(--transition);
+  white-space: nowrap;
+}
+
+/* ── Minimized state ── */
+
+.canvas-controls--minimized .canvas-controls-bar {
+  max-height: 0;
+  opacity: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  pointer-events: none;
+}
+
+/* When minimized: toggle stands alone with full border + rounded corners */
+.canvas-controls--minimized .canvas-controls-toggle {
+  border-top: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+}
+
+/* Individual buttons inside the bar */
+.cc-btn {
+  background: transparent;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1;
+  padding: 5px 9px;
+  cursor: pointer;
+  transition: border-color var(--transition), color var(--transition), background var(--transition);
+}
+
+.cc-btn--active {
+  border-color: #ef4444;
+  color: #fca5a5;
+  background: #ef444418;
+}
+
+/* Thin vertical separator between button groups */
+.cc-divider {
+  width: 1px;
+  height: 18px;
+  background: var(--border-light);
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+
+/* ── Modal controls (search bar + filters inside modals) ── */
 
 .ui-modal-controls {
   display: flex;
@@ -101,3 +201,56 @@
 .ui-modal-filters .ui-type-select:nth-child(1),
 .ui-modal-filters .ui-type-select:nth-child(2) { flex: 0 0 40%; }
 .ui-modal-filters .ui-type-select:nth-child(3)  { flex: 0 0 calc(20% - 8px); }
+
+/* ── Touch: expand tap targets ── */
+
+@media (pointer: coarse) {
+  .ui-btn-rect { min-height: 44px; }
+  .ui-btn-mode { min-height: 44px; }
+  .cc-btn      { min-height: 44px; min-width: 44px; font-size: 20px; }
+  .canvas-controls-toggle { min-height: 28px; padding: 6px 24px; }
+}
+
+/* ── Mobile: top bar moves to bottom strip ── */
+/* --bottom-bar-h is used by modal.css to offset the modal */
+
+@media (max-width: 640px) {
+  :root { --bottom-bar-h: 60px; }
+
+  .ui-top-bar {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+    background: var(--bg-secondary);
+    border-top: var(--border-divider-line);
+    z-index: 10;
+  }
+
+  .rs-top-group,
+  .de-top-group { gap: 6px; }
+
+  .ui-btn-rect,
+  .ui-btn-mode {
+    font-size: 11px;
+    padding: 10px 12px;
+  }
+
+  /* Tray floats above the bottom bar */
+  .canvas-controls { bottom: calc(var(--bottom-bar-h) + 12px); }
+}
+
+/* ── Hover — only on devices that genuinely support it ── */
+
+@media (hover: hover) {
+  .ui-btn-rect:hover          { background: var(--node-border); color: var(--bg-main); }
+  .ui-btn-mode:hover          { border-color: var(--border-primary); color: var(--text-primary); }
+  .canvas-controls-toggle:hover { color: var(--text-primary); }
+  .cc-btn:hover               { border-color: #ef4444; color: #fca5a5; }
+}

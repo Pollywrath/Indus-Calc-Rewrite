@@ -15,7 +15,7 @@ export const SUBCATEGORIES = {
 
 export const CYCLE_MODES    = ['none', 'steam_temp', 'settings']
 export const QUANTITY_MODES = ['none', 'steam_temp', 'settings', 'pollution']
-export const POWER_TYPES    = ['MV', 'HV', 'both']
+export const POWER_TYPES    = ['MV', 'HV', 'MV/HV', 'Logic', 'Data']
 export const NODE_DIRS      = ['input', 'output', 'both']
 export const NODE_FACES     = ['North', 'East', 'West', 'South']
 export const NODE_TYPES     = ['Item', 'Fluid', 'Power']

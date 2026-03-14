@@ -3,6 +3,11 @@
   height: 100%;
 }
 
+/* On mobile the bottom bar covers ~60px, push canvas up to avoid overlap */
+@media (max-width: 640px) {
+  .flow-canvas { height: calc(100% - 60px); }
+}
+
 .react-flow__background { background: var(--bg-main); }
 
 @keyframes dash-move {
@@ -15,6 +20,32 @@
   stroke-dasharray: 8 4;
   animation: dash-move 0.15s linear infinite;
 }
+
+/* ── Delete mode visual feedback (driven by class on .flow-canvas) ── */
+
+/* Node delete mode: nodes pulse a red border on hover/tap */
+.flow-canvas--delete-nodes .custom-node {
+  border-color: #ef444488;
+  cursor: pointer;
+  transition: border-color 0.1s;
+}
+
+.flow-canvas--delete-nodes .custom-node:hover {
+  border-color: #ef4444;
+}
+
+/* Edge delete mode: edges turn red */
+.flow-canvas--delete-edges .react-flow__edge path {
+  stroke: #ef444488;
+  cursor: pointer;
+  transition: stroke 0.1s;
+}
+
+.flow-canvas--delete-edges .react-flow__edge:hover path {
+  stroke: #ef4444;
+}
+
+/* ── Node base styles ── */
 
 .custom-node {
   background: var(--node-bg);
@@ -115,6 +146,8 @@
 
 .node-handles-container .react-flow__handle { pointer-events: auto; }
 
+/* ── Handles ── */
+
 .react-flow__handle.node-handle {
   width: 12px; height: 12px;
   border: 2px solid var(--bg-main);
@@ -124,6 +157,18 @@
 
 .react-flow__handle.node-handle--input  { background: var(--handle-input-supplied);   left:  0; transform: translate(-50%, -50%); }
 .react-flow__handle.node-handle--output { background: var(--handle-output-connected); right: 0; transform: translate(50%,  -50%); }
+
+/* ── Touch: expand handle tap target without changing visual size ── */
+
+@media (pointer: coarse) {
+  .react-flow__handle.node-handle::before {
+    content: '';
+    position: absolute;
+    inset: -16px;            /* 12px handle + 16px each side = 44px total tap area */
+  }
+}
+
+/* ── IO columns ── */
 
 .node-io-columns {
   display: grid;
@@ -154,7 +199,7 @@
   overflow: hidden;
   text-align: center;
   cursor: pointer;
-  transition: filter var(--transition);
+  transition: opacity var(--transition);
 }
 
 .node-rect:hover { opacity: 0.8; }
@@ -172,3 +217,5 @@
   line-height: 1.2;
   word-break: break-word;
 }
+
+.node-io-gap { flex-shrink: 0; }

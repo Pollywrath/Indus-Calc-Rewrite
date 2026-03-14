@@ -9,6 +9,8 @@ import { ViewModeProvider }    from './contexts/ViewModeContext'
 import { SolverProvider }      from './contexts/SolverContext'
 import NodeActionsContext       from './contexts/NodeActionsContext'
 import { useData }             from './contexts/DataContext'
+import { useDisplayMode }      from './contexts/DisplayModeContext'
+import { MODE_CONFIG }         from './config/displayModes'
 import RecipeSelector          from './components/panels/RecipeSelector'
 import DataEditor              from './components/panels/DataEditor'
 
@@ -18,7 +20,6 @@ const snapGrid = [SNAP_X, SNAP_Y]
 const snapVal  = (val, grid) => Math.round(val / grid) * grid
 const snapPos  = (x, y) => ({ x: snapVal(x, SNAP_X), y: snapVal(y, SNAP_Y) })
 
-// Sits inside ReactFlow so it can call useReactFlow
 const SelectRecipeBridge = ({ machinesMap, recipeTrigger, setNodes, onReadyRef }) => {
   const { screenToFlowPosition } = useReactFlow()
 
@@ -53,10 +54,16 @@ const SelectRecipeBridge = ({ machinesMap, recipeTrigger, setNodes, onReadyRef }
 
 const AppInner = () => {
   const { machinesMap }                  = useData()
+  const { mode, cycleNext }              = useDisplayMode()
   const [nodes, setNodes, onNodesChange] = useNodesState([])
   const [edges, setEdges, onEdgesChange] = useEdgesState([])
-  const [recipeTrigger, setRecipeTrigger] = useState(null)
-  const onSelectRecipeRef                = useRef(null)
+  const [recipeTrigger,     setRecipeTrigger]    = useState(null)
+  const [deleteMode,        setDeleteMode]        = useState(null)   // null | 'node' | 'edge'
+  const [controlsMinimized, setControlsMinimized] = useState(false)
+  const onSelectRecipeRef = useRef(null)
+
+  const toggleDeleteMode = useCallback((m) => setDeleteMode(prev => prev === m ? null : m), [])
+  const toggleControls   = useCallback(() => setControlsMinimized(m => !m), [])
 
   const onConnect   = useCallback((params) => setEdges(eds => addEdge(params, eds)), [setEdges])
   const onDragStart = useCallback(() => document.body.classList.add('is-dragging'), [])
@@ -78,22 +85,88 @@ const AppInner = () => {
     ))
   }, [setEdges])
 
+  const onNodeClick = useCallback((_e, node) => {
+    if (deleteMode === 'node') onDeleteNode(node.id)
+  }, [deleteMode, onDeleteNode])
+
+  const onEdgeClick = useCallback((_e, edge) => {
+    if (deleteMode === 'edge') setEdges(es => es.filter(e => e.id !== edge.id))
+  }, [deleteMode, setEdges])
+
   const nodeActions = useMemo(
-    () => ({ onProductClick, onDeleteNode, onClearHandle }),
-    [onProductClick, onDeleteNode, onClearHandle]
+    () => ({ onProductClick, onDeleteNode, onClearHandle, deleteMode }),
+    [onProductClick, onDeleteNode, onClearHandle, deleteMode]
   )
 
   const onSelectRecipe = useCallback((recipe) => {
     onSelectRecipeRef.current?.(recipe)
   }, [])
 
+  const canvasClass = [
+    'flow-canvas',
+    deleteMode === 'node' && 'flow-canvas--delete-nodes',
+    deleteMode === 'edge' && 'flow-canvas--delete-edges',
+  ].filter(Boolean).join(' ')
+
+  const controlsClass = [
+    'canvas-controls',
+    controlsMinimized && 'canvas-controls--minimized',
+  ].filter(Boolean).join(' ')
+
   return (
     <NodeActionsContext.Provider value={nodeActions}>
+
+      {/* ── Top-left panel buttons ── */}
       <div className="ui-top-bar">
         <RecipeSelector onSelectRecipe={onSelectRecipe} trigger={recipeTrigger} />
         <DataEditor />
       </div>
-      <div className="flow-canvas">
+
+      {/* ── Bottom-center canvas controls tray ── */}
+      <div className={controlsClass}>
+        {/* Bar first so toggle tab appears below it visually, but toggle is on top in DOM */}
+        <div className="canvas-controls-bar">
+          {/* Rate mode cycle button */}
+          <button
+            className="cc-btn"
+            onClick={cycleNext}
+            title="Cycle display rate"
+          >
+            {MODE_CONFIG[mode].trayLabel}
+          </button>
+
+          <div className="cc-divider" />
+
+          {/* Node delete */}
+          <button
+            className={`cc-btn${deleteMode === 'node' ? ' cc-btn--active' : ''}`}
+            onClick={() => toggleDeleteMode('node')}
+            title="Node delete mode — click a node to remove it"
+          >
+            🗑
+          </button>
+
+          {/* Edge delete */}
+          <button
+            className={`cc-btn${deleteMode === 'edge' ? ' cc-btn--active' : ''}`}
+            onClick={() => toggleDeleteMode('edge')}
+            title="Edge delete mode — click an edge or handle to remove it"
+          >
+            ✂
+          </button>
+        </div>
+
+        <button
+          className="canvas-controls-toggle"
+          onClick={toggleControls}
+          aria-label={controlsMinimized ? 'Expand controls' : 'Collapse controls'}
+        >
+          {controlsMinimized ? '▲' : '▼'}
+        </button>
+      </div>
+
+      {/* ── Canvas ── */}
+      <div className={canvasClass}>
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -113,6 +186,8 @@ const AppInner = () => {
           onlyRenderVisibleElements
           onNodeDragStart={onDragStart}
           onNodeDragStop={onDragStop}
+          onNodeClick={onNodeClick}
+          onEdgeClick={onEdgeClick}
         >
           <Background variant={BackgroundVariant.Dots} color="var(--border-light)" gap={24} size={1.5} />
           <SelectRecipeBridge
@@ -123,6 +198,7 @@ const AppInner = () => {
           />
         </ReactFlow>
       </div>
+
     </NodeActionsContext.Provider>
   )
 }

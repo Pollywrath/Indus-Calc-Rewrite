@@ -1,7 +1,6 @@
 import { useState, useMemo, useCallback, useEffect, useTransition } from 'react'
 import Modal from '../../../components/common/Modal'
 import { useData } from '../../../contexts/DataContext'
-import { useDisplayMode, MODE_CONFIG } from '../../../contexts/DisplayModeContext'
 import { TABS } from './constants'
 import ProductTable from './ProductTable'
 import MachineTable from './MachineTable'
@@ -15,7 +14,6 @@ const matchesRole = (recipe, productId, role) => {
 
 const RecipeSelector = ({ onSelectRecipe, trigger }) => {
   const { products, machines, recipes, productsMap, machinesMap } = useData()
-  const { mode, cycleNext } = useDisplayMode()
 
   const [open,            setOpen]            = useState(false)
   const [tab,             setTab]             = useState('Product')
@@ -83,9 +81,6 @@ const RecipeSelector = ({ onSelectRecipe, trigger }) => {
             setRoleFilter(new Set())
           })
         }}>Select Recipe</button>
-        <button className="ui-btn-mode" onClick={cycleNext}>
-          {MODE_CONFIG[mode].label}
-        </button>
       </div>
 
       {open && (

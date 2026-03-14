@@ -46,6 +46,14 @@ const RecipeForm = memo(({ form, setForm, machineData, productData }) => {
     return productNodes.map((n, i) => `${i}:${n.type[0]}(${n.direction})`).join('  ')
   }, [productNodes])
 
+  const powerTypeOptions = useMemo(() => {
+    const opts = ['none', 'settings']
+    const powerNodes = (selectedMachine?.nodes ?? []).filter(n => n.type === 'Power')
+    if (powerNodes.some(n => n.power_type === 'MV' || n.power_type === 'both')) opts.push('MV')
+    if (powerNodes.some(n => n.power_type === 'HV' || n.power_type === 'both')) opts.push('HV')
+    return opts
+  }, [selectedMachine])
+
   const validationErrors = useMemo(() => [
     ...validateIO(form.inputs,  productNodes, 'input',  form.machine_id, productsById),
     ...validateIO(form.outputs, productNodes, 'output', form.machine_id, productsById),
@@ -94,7 +102,7 @@ const RecipeForm = memo(({ form, setForm, machineData, productData }) => {
           <Inp value={form.power_consumption} onChange={v => setForm(f => ({ ...f, power_consumption: v }))} type="number" min={0} />
         </Field>
         <Field label="Power Type">
-          <Sel value={form.power_type} onChange={v => setForm(f => ({ ...f, power_type: v }))} options={['MV', 'HV']} placeholder="None" />
+          <Sel value={form.power_type} onChange={v => setForm(f => ({ ...f, power_type: v }))} options={powerTypeOptions} placeholder="Select…" />
         </Field>
         <Field label="Pollution">
           <Inp value={form.pollution} onChange={v => setForm(f => ({ ...f, pollution: v }))} type="number" step={0.01} />

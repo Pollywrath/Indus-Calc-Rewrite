@@ -1,1 +1,1079 @@
-[]
+[
+  {
+    "name": "Short Pipe",
+    "cost": 2,
+    "category": "Pipes",
+    "subcategory": "Pipe",
+    "tier": 1,
+    "size": {
+      "x": 1,
+      "y": 1
+    },
+    "nodes": [
+      {
+        "x": 0,
+        "y": 0,
+        "face": "North",
+        "type": "Item",
+        "direction": "both"
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "face": "South",
+        "type": "Item",
+        "direction": "both"
+      }
+    ],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_pipes",
+    "id": "m_short_pipe"
+  },
+  {
+    "name": "Pipe Turn",
+    "cost": 2,
+    "category": "Pipes",
+    "subcategory": "Pipe",
+    "tier": 1,
+    "size": {
+      "x": 1,
+      "y": 1
+    },
+    "nodes": [
+      {
+        "x": 0,
+        "y": 0,
+        "face": "West",
+        "type": "Item",
+        "direction": "both"
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "face": "South",
+        "type": "Item",
+        "direction": "both"
+      }
+    ],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_pipes",
+    "id": "m_pipe_turn"
+  },
+  {
+    "name": "Pipe Junction",
+    "cost": 2,
+    "category": "Pipes",
+    "subcategory": "Pipe",
+    "tier": 1,
+    "size": {
+      "x": 1,
+      "y": 1
+    },
+    "nodes": [
+      {
+        "x": 0,
+        "y": 0,
+        "face": "North",
+        "type": "Item",
+        "direction": "both"
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "face": "East",
+        "type": "Item",
+        "direction": "both"
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "face": "South",
+        "type": "Item",
+        "direction": "both"
+      }
+    ],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_pipes",
+    "id": "m_pipe_junction"
+  },
+  {
+    "name": "Pipe Section",
+    "cost": 2,
+    "category": "Pipes",
+    "subcategory": "Pipe",
+    "tier": 1,
+    "size": {
+      "x": 1,
+      "y": 1
+    },
+    "nodes": [
+      {
+        "x": 0,
+        "y": 0,
+        "face": "North",
+        "type": "Item",
+        "direction": "both"
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "face": "East",
+        "type": "Item",
+        "direction": "both"
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "face": "West",
+        "type": "Item",
+        "direction": "both"
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "face": "South",
+        "type": "Item",
+        "direction": "both"
+      }
+    ],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_pipes",
+    "id": "m_pipe_section"
+  },
+  {
+    "name": "Short Fluid Pipe",
+    "cost": 2,
+    "category": "Pipes",
+    "subcategory": "Pipe",
+    "tier": 1,
+    "size": {
+      "x": 1,
+      "y": 1
+    },
+    "nodes": [
+      {
+        "x": 0,
+        "y": 0,
+        "face": "North",
+        "type": "Fluid",
+        "direction": "both"
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "face": "South",
+        "type": "Fluid",
+        "direction": "both"
+      }
+    ],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_pipes",
+    "id": "m_short_fluid_pipe"
+  },
+  {
+    "name": "Fluid Pipe Turn",
+    "cost": 2,
+    "category": "Pipes",
+    "subcategory": "Pipe",
+    "tier": 1,
+    "size": {
+      "x": 1,
+      "y": 1
+    },
+    "nodes": [
+      {
+        "x": 0,
+        "y": 0,
+        "face": "West",
+        "type": "Fluid",
+        "direction": "both"
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "face": "South",
+        "type": "Fluid",
+        "direction": "both"
+      }
+    ],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_pipes",
+    "id": "m_fluid_pipe_turn"
+  },
+  {
+    "name": "Fluid Pipe Junction",
+    "cost": 2,
+    "category": "Pipes",
+    "subcategory": "Pipe",
+    "tier": 1,
+    "size": {
+      "x": 1,
+      "y": 1
+    },
+    "nodes": [
+      {
+        "x": 0,
+        "y": 0,
+        "face": "North",
+        "type": "Fluid",
+        "direction": "both"
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "face": "East",
+        "type": "Fluid",
+        "direction": "both"
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "face": "South",
+        "type": "Fluid",
+        "direction": "both"
+      }
+    ],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_pipes",
+    "id": "m_fluid_pipe_junction"
+  },
+  {
+    "name": "Fluid Pipe Section",
+    "cost": 2,
+    "category": "Pipes",
+    "subcategory": "Pipe",
+    "tier": 1,
+    "size": {
+      "x": 1,
+      "y": 1
+    },
+    "nodes": [
+      {
+        "x": 0,
+        "y": 0,
+        "face": "North",
+        "type": "Fluid",
+        "direction": "both"
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "face": "East",
+        "type": "Fluid",
+        "direction": "both"
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "face": "West",
+        "type": "Fluid",
+        "direction": "both"
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "face": "South",
+        "type": "Fluid",
+        "direction": "both"
+      }
+    ],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_pipes",
+    "id": "m_fluid_pipe_section"
+  },
+  {
+    "name": "Rusty Pipe Intersection",
+    "cost": 250,
+    "category": "Pipes",
+    "subcategory": "Intersection",
+    "tier": 1,
+    "size": {
+      "x": 2,
+      "y": 2
+    },
+    "nodes": [
+      {
+        "x": 0,
+        "y": 0,
+        "face": "West",
+        "type": "Item",
+        "direction": "both"
+      },
+      {
+        "x": 1,
+        "y": 0,
+        "face": "East",
+        "type": "Item",
+        "direction": "both"
+      },
+      {
+        "x": 1,
+        "y": 0,
+        "face": "South",
+        "type": "Item",
+        "direction": "both"
+      },
+      {
+        "x": 1,
+        "y": 1,
+        "face": "North",
+        "type": "Item",
+        "direction": "both"
+      }
+    ],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_intersection_pipes",
+    "id": "m_rusty_pipe_intersection"
+  },
+  {
+    "name": "Rusty Fluid Pipe Intersection",
+    "cost": 250,
+    "category": "Pipes",
+    "subcategory": "Intersection",
+    "tier": 1,
+    "size": {
+      "x": 2,
+      "y": 2
+    },
+    "nodes": [
+      {
+        "x": 0,
+        "y": 0,
+        "face": "West",
+        "type": "Fluid",
+        "direction": "both"
+      },
+      {
+        "x": 1,
+        "y": 0,
+        "face": "East",
+        "type": "Fluid",
+        "direction": "both"
+      },
+      {
+        "x": 1,
+        "y": 0,
+        "face": "South",
+        "type": "Fluid",
+        "direction": "both"
+      },
+      {
+        "x": 1,
+        "y": 1,
+        "face": "North",
+        "type": "Fluid",
+        "direction": "both"
+      }
+    ],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_intersection_pipes",
+    "id": "m_rusty_fluid_pipe_intersection"
+  },
+  {
+    "name": "Rusty Fluid Pipe And Item Intersection",
+    "cost": 250,
+    "category": "Pipes",
+    "subcategory": "Intersection",
+    "tier": 1,
+    "size": {
+      "x": 3,
+      "y": 3
+    },
+    "nodes": [
+      {
+        "x": 1,
+        "y": 2,
+        "face": "North",
+        "type": "Fluid",
+        "direction": "both"
+      },
+      {
+        "x": 1,
+        "y": 0,
+        "face": "South",
+        "type": "Fluid",
+        "direction": "both"
+      },
+      {
+        "x": 2,
+        "y": 1,
+        "face": "East",
+        "type": "Item",
+        "direction": "both"
+      },
+      {
+        "x": 0,
+        "y": 1,
+        "face": "West",
+        "type": "Item",
+        "direction": "both"
+      }
+    ],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_intersection_pipes",
+    "id": "m_rusty_fluid_pipe_and_item_intersection"
+  },
+  {
+    "name": "AND Gate",
+    "cost": 2500,
+    "category": "Logic",
+    "subcategory": "Logic Gate",
+    "tier": 1,
+    "size": {
+      "x": 2,
+      "y": 2
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_logic",
+    "id": "m_and_gate"
+  },
+  {
+    "name": "Color LED",
+    "cost": 3000,
+    "category": "Logic",
+    "subcategory": "Logic Output",
+    "tier": 1,
+    "size": {
+      "x": 1,
+      "y": 1
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_advanced_logic",
+    "id": "m_color_led"
+  },
+  {
+    "name": "Fluid Meter",
+    "cost": 7500,
+    "category": "Logic",
+    "subcategory": "Logic Input",
+    "tier": 1,
+    "size": {
+      "x": 1,
+      "y": 1
+    },
+    "nodes": [
+      {
+        "x": 0,
+        "y": 0,
+        "face": "North",
+        "type": "Fluid",
+        "direction": "both"
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "face": "South",
+        "type": "Fluid",
+        "direction": "both"
+      }
+    ],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_logic",
+    "id": "m_fluid_meter"
+  },
+  {
+    "name": "Item Meter",
+    "cost": 7500,
+    "category": "Logic",
+    "subcategory": "Logic Input",
+    "tier": 1,
+    "size": {
+      "x": 1,
+      "y": 1
+    },
+    "nodes": [
+      {
+        "x": 0,
+        "y": 0,
+        "face": "North",
+        "type": "Item",
+        "direction": "both"
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "face": "South",
+        "type": "Item",
+        "direction": "both"
+      }
+    ],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_logic",
+    "id": "m_item_meter"
+  },
+  {
+    "name": "Logic Adder",
+    "cost": 50000,
+    "category": "Logic",
+    "subcategory": "Logic Gate",
+    "tier": 1,
+    "size": {
+      "x": 2,
+      "y": 2
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_advanced_logic",
+    "id": "m_logic_adder"
+  },
+  {
+    "name": "Logic Breaker",
+    "cost": 7500,
+    "category": "Logic",
+    "subcategory": "Logic Output",
+    "tier": 1,
+    "size": {
+      "x": 3,
+      "y": 2
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_logic",
+    "id": "m_logic_breaker"
+  },
+  {
+    "name": "Logic Button",
+    "cost": 5000,
+    "category": "Logic",
+    "subcategory": "Logic Input",
+    "tier": 1,
+    "size": {
+      "x": 2,
+      "y": 2
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_logic",
+    "id": "m_logic_button"
+  },
+  {
+    "name": "Logic Clock",
+    "cost": 4000,
+    "category": "Logic",
+    "subcategory": "Logic Input",
+    "tier": 1,
+    "size": {
+      "x": 2,
+      "y": 2
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_logic",
+    "id": "m_logic_clock"
+  },
+  {
+    "name": "Logic Dabble",
+    "cost": 50000,
+    "category": "Logic",
+    "subcategory": "Logic Gate",
+    "tier": 1,
+    "size": {
+      "x": 4,
+      "y": 4
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_advanced_logic",
+    "id": "m_logic_dabble"
+  },
+  {
+    "name": "Logic Delay",
+    "cost": 2000,
+    "category": "Logic",
+    "subcategory": "Logic Gate",
+    "tier": 1,
+    "size": {
+      "x": 1,
+      "y": 1
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_logic",
+    "id": "m_logic_delay"
+  },
+  {
+    "name": "Logic Fluid Pipe Valve",
+    "cost": 7500,
+    "category": "Logic",
+    "subcategory": "Logic Output",
+    "tier": 1,
+    "size": {
+      "x": 2,
+      "y": 2
+    },
+    "nodes": [
+      {
+        "x": 0,
+        "y": 1,
+        "face": "North",
+        "type": "Fluid",
+        "direction": "output"
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "face": "South",
+        "type": "Fluid",
+        "direction": "input"
+      }
+    ],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_logic",
+    "id": "m_logic_fluid_pipe_valve"
+  },
+  {
+    "name": "Logic Item Pipe Valve",
+    "cost": 7500,
+    "category": "Logic",
+    "subcategory": "Logic Output",
+    "tier": 1,
+    "size": {
+      "x": 2,
+      "y": 2
+    },
+    "nodes": [
+      {
+        "x": 0,
+        "y": 1,
+        "face": "North",
+        "type": "Item",
+        "direction": "output"
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "face": "South",
+        "type": "Item",
+        "direction": "input"
+      }
+    ],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_logic",
+    "id": "m_logic_item_pipe_valve"
+  },
+  {
+    "name": "Logic Knot",
+    "cost": 10000,
+    "category": "Logic",
+    "subcategory": "Miscellaneous",
+    "tier": 1,
+    "size": {
+      "x": 1,
+      "y": 1
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_logic",
+    "id": "m_logic_knot"
+  },
+  {
+    "name": "Logic Memory",
+    "cost": 10000,
+    "category": "Logic",
+    "subcategory": "Logic Gate",
+    "tier": 1,
+    "size": {
+      "x": 2,
+      "y": 2
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_logic",
+    "id": "m_logic_memory"
+  },
+  {
+    "name": "Logic Pole",
+    "cost": 1000,
+    "category": "Logic",
+    "subcategory": "Miscellaneous",
+    "tier": 1,
+    "size": {
+      "x": 2,
+      "y": 2
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_logic",
+    "id": "m_logic_pole"
+  },
+  {
+    "name": "Logic Pulse",
+    "cost": 2000,
+    "category": "Logic",
+    "subcategory": "Logic Gate",
+    "tier": 1,
+    "size": {
+      "x": 1,
+      "y": 1
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_logic",
+    "id": "m_logic_pulse"
+  },
+  {
+    "name": "Logic Random",
+    "cost": 1500,
+    "category": "Logic",
+    "subcategory": "Logic Input",
+    "tier": 1,
+    "size": {
+      "x": 2,
+      "y": 2
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_logic",
+    "id": "m_logic_random"
+  },
+  {
+    "name": "Logic Relay",
+    "cost": 12500,
+    "category": "Logic",
+    "subcategory": "Miscellaneous",
+    "tier": 1,
+    "size": {
+      "x": 2,
+      "y": 2
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_logic",
+    "id": "m_logic_relay"
+  },
+  {
+    "name": "Logic Switch",
+    "cost": 2500,
+    "category": "Logic",
+    "subcategory": "Logic Input",
+    "tier": 1,
+    "size": {
+      "x": 2,
+      "y": 2
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_logic",
+    "id": "m_logic_switch"
+  },
+  {
+    "name": "NAND Gate",
+    "cost": 5000,
+    "category": "Logic",
+    "subcategory": "Logic Gate",
+    "tier": 1,
+    "size": {
+      "x": 2,
+      "y": 2
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_logic",
+    "id": "m_nand_gate"
+  },
+  {
+    "name": "NOR Gate",
+    "cost": 5000,
+    "category": "Logic",
+    "subcategory": "Logic Gate",
+    "tier": 1,
+    "size": {
+      "x": 2,
+      "y": 2
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_logic",
+    "id": "m_nor_gate"
+  },
+  {
+    "name": "NOT Gate",
+    "cost": 1250,
+    "category": "Logic",
+    "subcategory": "Logic Gate",
+    "tier": 1,
+    "size": {
+      "x": 2,
+      "y": 2
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_logic",
+    "id": "m_not_gate"
+  },
+  {
+    "name": "OR Gate",
+    "cost": 2000,
+    "category": "Logic",
+    "subcategory": "Logic Gate",
+    "tier": 1,
+    "size": {
+      "x": 2,
+      "y": 2
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_logic",
+    "id": "m_or_gate"
+  },
+  {
+    "name": "Pollution Gate",
+    "cost": 7500,
+    "category": "Logic",
+    "subcategory": "Logic Input",
+    "tier": 1,
+    "size": {
+      "x": 2,
+      "y": 2
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_logic",
+    "id": "m_pollution_gate"
+  },
+  {
+    "name": "Resistor",
+    "cost": 50000,
+    "category": "Logic",
+    "subcategory": "Miscellaneous",
+    "tier": 1,
+    "size": {
+      "x": 2,
+      "y": 1
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_logic",
+    "id": "m_resistor"
+  },
+  {
+    "name": "Seven Segment Display",
+    "cost": 35000,
+    "category": "Logic",
+    "subcategory": "Logic Output",
+    "tier": 1,
+    "size": {
+      "x": 2,
+      "y": 3
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_advanced_logic",
+    "id": "m_seven_segment_display"
+  },
+  {
+    "name": "Time Gate",
+    "cost": 5000,
+    "category": "Logic",
+    "subcategory": "Logic Input",
+    "tier": 1,
+    "size": {
+      "x": 2,
+      "y": 2
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_logic",
+    "id": "m_time_gate"
+  },
+  {
+    "name": "White LED",
+    "cost": 1000,
+    "category": "Logic",
+    "subcategory": "Logic Output",
+    "tier": 1,
+    "size": {
+      "x": 1,
+      "y": 1
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_logic",
+    "id": "m_white_led"
+  },
+  {
+    "name": "XOR Gate",
+    "cost": 2500,
+    "category": "Logic",
+    "subcategory": "Logic Gate",
+    "tier": 1,
+    "size": {
+      "x": 2,
+      "y": 2
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_logic",
+    "id": "m_xor_gate"
+  },
+  {
+    "name": "Decoration",
+    "cost": 40,
+    "category": "Miscellaneous",
+    "subcategory": "Decoration",
+    "tier": 1,
+    "size": {
+      "x": 2,
+      "y": 2
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_utility",
+    "id": "m_decoration"
+  },
+  {
+    "name": "Flag",
+    "cost": 1000,
+    "category": "Miscellaneous",
+    "subcategory": "Decoration",
+    "tier": 1,
+    "size": {
+      "x": 2,
+      "y": 2
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_utility",
+    "id": "m_flag"
+  },
+  {
+    "name": "Huge Spotlight",
+    "cost": 15000,
+    "category": "Miscellaneous",
+    "subcategory": "Decoration",
+    "tier": 1,
+    "size": {
+      "x": 6,
+      "y": 6
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_logic",
+    "id": "m_huge_spotlight"
+  },
+  {
+    "name": "Inclined Light",
+    "cost": 40,
+    "category": "Miscellaneous",
+    "subcategory": "Decoration",
+    "tier": 1,
+    "size": {
+      "x": 1,
+      "y": 1
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_utility",
+    "id": "m_inclined_light"
+  },
+  {
+    "name": "Inclined Light2",
+    "cost": 40,
+    "category": "Miscellaneous",
+    "subcategory": "Decoration",
+    "tier": 1,
+    "size": {
+      "x": 1,
+      "y": 1
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_utility",
+    "id": "m_inclined_light2"
+  },
+  {
+    "name": "Light",
+    "cost": 40,
+    "category": "Miscellaneous",
+    "subcategory": "Decoration",
+    "tier": 1,
+    "size": {
+      "x": 1,
+      "y": 1
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_utility",
+    "id": "m_light"
+  },
+  {
+    "name": "Light2",
+    "cost": 40,
+    "category": "Miscellaneous",
+    "subcategory": "Decoration",
+    "tier": 1,
+    "size": {
+      "x": 1,
+      "y": 1
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_utility",
+    "id": "m_light2"
+  },
+  {
+    "name": "Metal Sign",
+    "cost": 900,
+    "category": "Miscellaneous",
+    "subcategory": "Decoration",
+    "tier": 1,
+    "size": {
+      "x": 2,
+      "y": 2
+    },
+    "nodes": [],
+    "variant": null,
+    "limited": false,
+    "research": "s_utility_utility",
+    "id": "m_metal_sign"
+  }
+]
